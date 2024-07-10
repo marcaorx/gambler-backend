@@ -18,10 +18,6 @@ export class PaymentsService {
         query: `email:'${email}'`,
       });
 
-      if (customers.data.length === 0) {
-        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-      }
-
       return customers.data[0];
     } catch (error) {
       console.error('Error fetching user:', error.message);
@@ -46,12 +42,11 @@ export class PaymentsService {
   ): Promise<SubscriptionStatusResponse | any> {
     try {
       const user = await this.getUser(email);
-      return user;
       if (!user) {
         return { status: 'not_registered' };
       }
       const subscriptions = await this.getSubscriptions();
-      console.log(subscriptions);
+      return subscriptions;
       const userSubData = subscriptions.find((sub) => sub.customer === user.id);
 
       return { status: userSubData?.status };
