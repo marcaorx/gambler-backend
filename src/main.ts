@@ -5,9 +5,8 @@ import * as express from 'express';
 
 async function bootstrap() {
   const server = express();
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(server), {
-    cors: true,
-  });
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
+  app.enableCors({ origin: '*' });
   process.env.PORT ? await app.listen(process.env.PORT) : await app.init();
   module.exports = server;
 }
