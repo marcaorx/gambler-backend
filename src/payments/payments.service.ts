@@ -41,10 +41,12 @@ export class PaymentsService {
     }
   }
 
-  async getIsUserActive(email: string): Promise<SubscriptionStatusResponse> {
+  async getIsUserActive(
+    email: string,
+  ): Promise<SubscriptionStatusResponse | any> {
     try {
       const user = await this.getUser(email);
-      console.log(user);
+      return user;
       if (!user) {
         return { status: 'not_registered' };
       }
