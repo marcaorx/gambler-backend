@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import Stripe from 'stripe';
 import { SubscriptionStatusResponse } from './types/subscription';
 
@@ -18,10 +18,14 @@ export class PaymentsService {
         query: `email:'${email}'`,
       });
 
+      if (customers.data.length === 0) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
+
       return customers.data[0];
     } catch (error) {
-      console.error('Erro ao buscar usuário:', error);
-      return error;
+      console.error('Error fetching user:', error.message);
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -32,8 +36,8 @@ export class PaymentsService {
       });
       return subscriptions.data;
     } catch (error) {
-      console.error('Erro ao buscar assinatura:', error);
-      return error;
+      console.error('Error fetching subscriptions:', error.message);
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -45,10 +49,11 @@ export class PaymentsService {
       }
       const subscriptions = await this.getSubscriptions();
       const userSubData = subscriptions.find((sub) => sub.customer === user.id);
+
       return { status: userSubData.status };
     } catch (error) {
-      console.error('Erro ao buscar status da assinatura:', error);
-      return error;
+      console.error('Error fetching subscription status:', error.message);
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
