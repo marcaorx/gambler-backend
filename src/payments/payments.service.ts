@@ -27,7 +27,7 @@ export class PaymentsService {
 
   async getSubscriptions(): Promise<Stripe.Subscription[]> {
     try {
-      const subscriptions = await this.stripe.subscriptions.search();
+      const subscriptions = await this.stripe.subscriptions.list();
       return subscriptions.data;
     } catch (error) {
       console.error('Error fetching subscriptions:', error.message);
