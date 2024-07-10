@@ -50,7 +50,7 @@ export class PaymentsService {
       const subscriptions = await this.getSubscriptions();
       const userSubData = subscriptions.find((sub) => sub.customer === user.id);
 
-      return { status: userSubData.status };
+      return { status: userSubData?.status };
     } catch (error) {
       console.error('Error fetching subscription status:', error.message);
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
