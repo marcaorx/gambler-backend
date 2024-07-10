@@ -7,6 +7,10 @@ export class PaymentsController {
 
   @Get('/:email')
   getIsUserActive(@Param('email') email) {
-    return this.paymentService.getIsUserActive(email);
+    try {
+      return this.paymentService.getIsUserActive(email);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
