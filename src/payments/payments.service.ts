@@ -44,7 +44,6 @@ export class PaymentsService {
         return { status: 'not_registered' };
       }
       const subscriptions = await this.getSubscriptions();
-      return subscriptions;
       const userSubData = subscriptions.find((sub) => sub.customer === user.id);
 
       return { status: userSubData?.status };
