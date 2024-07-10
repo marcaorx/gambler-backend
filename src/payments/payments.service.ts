@@ -21,7 +21,7 @@ export class PaymentsService {
       return customers.data[0];
     } catch (error) {
       console.error('Erro ao buscar usuário:', error);
-      throw error;
+      return error;
     }
   }
 
@@ -33,7 +33,7 @@ export class PaymentsService {
       return subscriptions.data;
     } catch (error) {
       console.error('Erro ao buscar assinatura:', error);
-      throw error;
+      return error;
     }
   }
 
@@ -48,7 +48,7 @@ export class PaymentsService {
       return { status: userSubData.status };
     } catch (error) {
       console.error('Erro ao buscar status da assinatura:', error);
-      throw error;
+      return error;
     }
   }
 }
